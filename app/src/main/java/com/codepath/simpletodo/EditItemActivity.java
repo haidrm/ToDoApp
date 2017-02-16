@@ -13,18 +13,19 @@ public class EditItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
         EditText editItem = (EditText) findViewById(R.id.etEditItem);
-        String itemText = getIntent().getStringExtra("item");
-        editItem.setText(itemText);
+        Item item = (Item) getIntent().getSerializableExtra("item");
+        editItem.setText(item.getItemText());
         editItem.setSelection(editItem.getText().length());
         editItem.requestFocus();
     }
 
     public void onSave(View v) {
         EditText editItem = (EditText) findViewById(R.id.etEditItem);
-        int pos = getIntent().getIntExtra("pos", 0);
+        Item item = (Item) getIntent().getSerializableExtra("item");
+        String itemText = editItem.getText().toString();
         Intent data = new Intent();
-        data.putExtra("item", editItem.getText().toString());
-        data.putExtra("pos", pos);
+        item.setItemText(itemText);
+        data.putExtra("saveItem", item);
         setResult(RESULT_OK, data);
         finish();
     }
